@@ -1,0 +1,58 @@
+
+
+
+
+
+
+
+
+
+https://github.com/hashicorp/terraform/issues/13109
+
+
+https://github.com/hashicorp/terraform/issues/13109
+
+
+
+module "mycluster" {
+  source = "github.com/matti/terraform-google-kubernetes-engine"
+
+  settings = {
+    region_name            = "us-east1"
+    zone_amount            = 3
+    cluster_name           = "mycluster-pompei"
+    gke_min_master_version = "1.8.6-gke.0"
+  }
+}
+
+locals {
+  common_settings = {
+    cluster_name = "${module.mycluster.cluster_name}"
+    cluster_zone = "${module.mycluster.cluster_zone}"
+
+    node_auto_repair  = true
+    node_auto_upgrade = false
+  }
+
+  common_labels = {
+    common_label1 = "value1"
+    common_label2 = "value2"
+  }
+
+  common_tags = ["every"]
+
+  baseline_settings = {
+    name                       = "baseline"
+    node_count                 = 1
+    machine_type               = "n1-highcpu-4"
+  }
+
+  baseline_labels = {
+    baseline_label1 = "value1"
+  }
+
+  baseline_tags = ["tag1"]
+
+  work_settings = {
+    name                       = "work"
+   
